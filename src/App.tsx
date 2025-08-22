@@ -4,6 +4,7 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import HomePage from './pages/HomePage'
 import ForumPage from './pages/ForumPage'
+import NewThreadPage from './pages/NewThreadPage'
 import ArticlesPage from './pages/ArticlesPage'
 import EducationPage from './pages/EducationPage'
 import ContactPage from './pages/ContactPage'
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/forum" element={<ForumPage />} />
+            <Route path="/forum/new" element={<NewThreadPage />} />
             <Route path="/forum/:category" element={<ForumPage />} />
             <Route path="/artikel" element={<ArticlesPage />} />
             <Route path="/artikel/:slug" element={<ArticlesPage />} />
