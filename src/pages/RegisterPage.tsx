@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -26,6 +26,7 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,18 +43,38 @@ const RegisterPage = () => {
     }
 
     setIsLoading(true)
-    console.log('Registration attempt:', { 
-      email: formData.email, 
+    console.log('Registration attempt:', {
+      email: formData.email,
       username: formData.username,
-      profession: formData.profession 
+      profession: formData.profession
     })
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const res = await fetch('http://localhost:3001/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          username: formData.username,
+          email: formData.email,
+          phone: formData.phone,
+          profession: formData.profession,
+          password: formData.password,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.message || 'Registrasi gagal')
+      }
+      localStorage.setItem('token', data.token)
+      toast.success('Registrasi berhasil! Selamat datang di call-center.id')
+      navigate('/admin')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Registrasi gagal'
+      toast.error(message)
+    } finally {
       setIsLoading(false)
-      toast.success('Registrasi berhasil! Silakan cek email untuk verifikasi akun.')
-      // In real app, redirect to verification page or login
-    }, 2000)
+    }
   }
 
   const handleInputChange = (field: string, value: string | boolean) => {

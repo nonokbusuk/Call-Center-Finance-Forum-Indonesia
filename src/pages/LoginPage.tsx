@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -18,19 +18,32 @@ const LoginPage = () => {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
     console.log('Login attempt:', { email: formData.email })
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
+
+    try {
+      const res = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password })
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.message || 'Login gagal')
+      }
+      localStorage.setItem('token', data.token)
       toast.success('Login berhasil! Selamat datang di call-center.id')
-      // In real app, redirect to dashboard or previous page
-    }, 2000)
+      navigate('/admin')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Login gagal'
+      toast.error(message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleInputChange = (field: string, value: string | boolean) => {
