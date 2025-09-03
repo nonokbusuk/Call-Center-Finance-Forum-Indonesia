@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Plus, Search, Filter, MessageCircle, ThumbsUp, ThumbsDown, Pin } from 'lucide-react'
+import { Plus, Search, MessageCircle, ThumbsUp, ThumbsDown, Pin } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -9,99 +9,51 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 console.log('ForumPage component loaded')
 
+interface Thread {
+  id: number
+  title: string
+  content: string
+  author: string
+  category: string
+  replies: number
+  views: number
+  upvotes: number
+  downvotes: number
+  timeAgo: string
+  isPinned: boolean
+  lastReply?: { author: string; timeAgo: string } | null
+}
+
 const ForumPage = () => {
   const { category } = useParams()
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('latest')
 
-  // Mock forum threads data
-  const forumThreads = [
-    {
-      id: 1,
-      title: "Bagaimana cara keluar dari jeratan pinjol ilegal?",
-      content: "Saya terjebak dengan beberapa pinjaman online ilegal dan sekarang ditagih dengan cara yang tidak wajar...",
-      author: "Anonymous123",
-      category: "Pinjaman Online",
-      replies: 23,
-      views: 456,
-      upvotes: 15,
-      downvotes: 2,
-      timeAgo: "2 jam lalu",
-      isPinned: true,
-      lastReply: {
-        author: "FinancialAdvisor",
-        timeAgo: "30 menit lalu"
-      }
-    },
-    {
-      id: 2,
-      title: "Review Bank Digital Jenius vs Bank Jago - Mana yang lebih baik?",
-      content: "Mau pindah ke bank digital, bingung pilih antara Jenius dan Bank Jago. Ada yang punya pengalaman?",
-      author: "DigitalBanker",
-      category: "Perbankan",
-      replies: 18,
-      views: 892,
-      upvotes: 24,
-      downvotes: 1,
-      timeAgo: "4 jam lalu",
-      isPinned: false,
-      lastReply: {
-        author: "BankExpert",
-        timeAgo: "1 jam lalu"
-      }
-    },
-    {
-      id: 3,
-      title: "Tips investasi saham untuk gaji UMR",
-      content: "Dengan gaji UMR, apakah masih bisa investasi saham? Berapa minimal yang harus dialokasikan?",
-      author: "NewInvestor",
-      category: "Investasi",
-      replies: 31,
-      views: 1250,
-      upvotes: 42,
-      downvotes: 3,
-      timeAgo: "6 jam lalu",
-      isPinned: false,
-      lastReply: {
-        author: "StockGuru",
-        timeAgo: "2 jam lalu"
-      }
-    },
-    {
-      id: 4,
-      title: "Asuransi kesehatan swasta vs BPJS - Perbandingan lengkap",
-      content: "Setelah riset panjang, ini perbandingan detail antara asuransi kesehatan swasta dan BPJS...",
-      author: "HealthInsurer",
-      category: "Asuransi",
-      replies: 15,
-      views: 678,
-      upvotes: 28,
-      downvotes: 0,
-      timeAgo: "8 jam lalu",
-      isPinned: false,
-      lastReply: {
-        author: "MedicalExpert",
-        timeAgo: "3 jam lalu"
-      }
-    },
-    {
-      id: 5,
-      title: "Update regulasi OJK terbaru untuk P2P Lending",
-      content: "OJK baru saja mengeluarkan regulasi baru untuk platform P2P lending. Apa dampaknya bagi investor?",
-      author: "RegulationWatcher",
-      category: "OJK & Regulasi",
-      replies: 7,
-      views: 234,
-      upvotes: 12,
-      downvotes: 1,
-      timeAgo: "1 hari lalu",
-      isPinned: false,
-      lastReply: {
-        author: "LegalExpert",
-        timeAgo: "5 jam lalu"
+  const [forumThreads, setForumThreads] = useState<Thread[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchThreads = async () => {
+      try {
+        setLoading(true)
+        const res = await fetch('/api/forum')
+        if (!res.ok) throw new Error('Gagal memuat data')
+        const data: Thread[] = await res.json()
+        setForumThreads(data)
+        setError(null)
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError('Terjadi kesalahan')
+        }
+      } finally {
+        setLoading(false)
       }
     }
-  ]
+    fetchThreads()
+  }, [])
 
   const categories = [
     "Semua Kategori",
@@ -181,69 +133,75 @@ const ForumPage = () => {
           </div>
 
           {/* Forum Threads */}
-          <div className="space-y-4">
-            {sortedThreads.map((thread) => (
-              <Card key={thread.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        {thread.isPinned && (
-                          <Pin className="h-4 w-4 text-finance-gold" />
-                        )}
-                        <Badge variant="secondary">{thread.category}</Badge>
-                        <span className="text-sm text-muted-foreground">{thread.timeAgo}</span>
+          {loading && <p>Memuat...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+          {!loading && !error && (
+            <>
+              <div className="space-y-4">
+                {sortedThreads.map((thread) => (
+                  <Card key={thread.id} className="hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            {thread.isPinned && (
+                              <Pin className="h-4 w-4 text-finance-gold" />
+                            )}
+                            <Badge variant="secondary">{thread.category}</Badge>
+                            <span className="text-sm text-muted-foreground">{thread.timeAgo}</span>
+                          </div>
+                          <CardTitle className="text-lg mb-2 hover:text-primary transition-colors cursor-pointer">
+                            {thread.title}
+                          </CardTitle>
+                          <CardDescription className="line-clamp-2 mb-3">
+                            {thread.content}
+                          </CardDescription>
+                          <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                            <span>oleh</span>
+                            <span className="font-medium">{thread.author}</span>
+                            {thread.lastReply && (
+                              <>
+                                <span className="mx-2">•</span>
+                                <span>terakhir oleh {thread.lastReply.author} {thread.lastReply.timeAgo}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <CardTitle className="text-lg mb-2 hover:text-primary transition-colors cursor-pointer">
-                        {thread.title}
-                      </CardTitle>
-                      <CardDescription className="line-clamp-2 mb-3">
-                        {thread.content}
-                      </CardDescription>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <span>oleh</span>
-                        <span className="font-medium">{thread.author}</span>
-                        {thread.lastReply && (
-                          <>
-                            <span className="mx-2">•</span>
-                            <span>terakhir oleh {thread.lastReply.author} {thread.lastReply.timeAgo}</span>
-                          </>
-                        )}
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <MessageCircle className="h-4 w-4" />
+                            <span>{thread.replies}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span>{thread.views} views</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-green-600 transition-colors">
+                            <ThumbsUp className="h-4 w-4" />
+                            <span>{thread.upvotes}</span>
+                          </button>
+                          <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-red-600 transition-colors">
+                            <ThumbsDown className="h-4 w-4" />
+                            <span>{thread.downvotes}</span>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <MessageCircle className="h-4 w-4" />
-                        <span>{thread.replies}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span>{thread.views} views</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-green-600 transition-colors">
-                        <ThumbsUp className="h-4 w-4" />
-                        <span>{thread.upvotes}</span>
-                      </button>
-                      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-red-600 transition-colors">
-                        <ThumbsDown className="h-4 w-4" />
-                        <span>{thread.downvotes}</span>
-                      </button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
 
-          {sortedThreads.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Tidak ada diskusi yang ditemukan</p>
-            </div>
+              {sortedThreads.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">Tidak ada diskusi yang ditemukan</p>
+                </div>
+              )}
+            </>
           )}
         </div>
 
