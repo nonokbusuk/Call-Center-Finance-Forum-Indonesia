@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from 'lucide-react'
-
-console.log('Footer component loaded')
+import Link from 'next/link';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -11,15 +9,16 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <img 
-                src="https://cdn-ai.onspace.ai/onspace/project/image/2hGG6P7tn8CTHN87f9mtSp/call-center.png" 
-                alt="Call Center Finance Indonesia" 
+              <img
+                src="https://cdn-ai.onspace.ai/onspace/project/image/2hGG6P7tn8CTHN87f9mtSp/call-center.png"
+                alt="Call Center Finance Indonesia"
                 className="h-10 w-auto"
+                loading="lazy"
               />
               <span className="text-xl font-bold text-finance-gold">call-center.id</span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Platform forum terdepan untuk diskusi dan publikasi tentang layanan keuangan di Indonesia. 
+              Platform forum terdepan untuk diskusi dan publikasi tentang layanan keuangan di Indonesia.
               Bergabunglah dengan komunitas profesional keuangan dan dapatkan insight terbaru.
             </p>
             <div className="flex space-x-4">
@@ -43,22 +42,22 @@ const Footer = () => {
             <h3 className="font-semibold text-finance-gold mb-4">Navigasi</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/forum" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/forum/" className="text-gray-300 hover:text-white transition-colors">
                   Forum Diskusi
                 </Link>
               </li>
               <li>
-                <Link to="/artikel" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/artikel/" className="text-gray-300 hover:text-white transition-colors">
                   Artikel & Berita
                 </Link>
               </li>
               <li>
-                <Link to="/ojk-regulasi" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/ojk-regulasi/" className="text-gray-300 hover:text-white transition-colors">
                   OJK & Regulasi
                 </Link>
               </li>
               <li>
-                <Link to="/edukasi-keuangan" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/edukasi-keuangan/" className="text-gray-300 hover:text-white transition-colors">
                   Edukasi Keuangan
                 </Link>
               </li>
@@ -86,7 +85,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

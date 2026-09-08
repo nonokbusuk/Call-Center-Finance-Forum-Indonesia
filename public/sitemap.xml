@@ -4,142 +4,171 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage -->
   <url>
     <loc>https://www.call-center.id/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>1</priority>
   </url>
 
-  <!-- Main Pages -->
   <url>
-    <loc>https://www.call-center.id/forum</loc>
+    <loc>https://www.call-center.id/forum/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/artikel</loc>
+    <loc>https://www.call-center.id/artikel/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/ojk-regulasi</loc>
+    <loc>https://www.call-center.id/ojk-regulasi/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/edukasi-keuangan</loc>
+    <loc>https://www.call-center.id/edukasi-keuangan/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/kontak</loc>
+    <loc>https://www.call-center.id/kontak/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- Forum Categories -->
   <url>
-    <loc>https://www.call-center.id/forum/pinjaman-online</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.call-center.id/forum/perbankan</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.call-center.id/forum/investasi</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.call-center.id/forum/asuransi</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.call-center.id/forum/fintech</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.call-center.id/forum/ojk-regulasi</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Authentication Pages -->
-  <url>
-    <loc>https://www.call-center.id/login</loc>
+    <loc>https://www.call-center.id/login/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/register</loc>
+    <loc>https://www.call-center.id/register/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
-  <!-- Sample Article Pages (these would be dynamic in production) -->
   <url>
-    <loc>https://www.call-center.id/artikel/ojk-roadmap-fintech-2024-2029</loc>
+    <loc>https://www.call-center.id/forum/pinjaman-online/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/perbankan/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/investasi/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/asuransi/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/fintech/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/ojk-regulasi/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/bagaimana-cara-keluar-dari-jeratan-pinjol-ilegal/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/review-bank-digital-jenius-vs-bank-jago/</loc>
+    <lastmod>2024-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/tips-investasi-saham-untuk-gaji-umr/</loc>
+    <lastmod>2024-01-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/asuransi-kesehatan-swasta-vs-bpjs-perbandingan-lengkap/</loc>
+    <lastmod>2024-01-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/forum/update-regulasi-ojk-terbaru-untuk-p2p-lending/</loc>
+    <lastmod>2024-01-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.call-center.id/artikel/ojk-luncurkan-roadmap-pengembangan-fintech-2024-2029/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/artikel/tren-investasi-cryptocurrency-indonesia-2024</loc>
+    <loc>https://www.call-center.id/artikel/tren-investasi-cryptocurrency-di-indonesia-2024/</loc>
     <lastmod>2024-01-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/artikel/perbandingan-bunga-deposito-bank-digital-vs-konvensional</loc>
+    <loc>https://www.call-center.id/artikel/perbandingan-bunga-deposito-bank-digital-vs-konvensional/</loc>
     <lastmod>2024-01-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/artikel/cara-memilih-asuransi-jiwa-keluarga-muda</loc>
+    <loc>https://www.call-center.id/artikel/cara-memilih-asuransi-jiwa-untuk-keluarga-muda/</loc>
     <lastmod>2024-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.call-center.id/artikel/mengenal-aplikasi-ewallet-terpopuler-indonesia</loc>
+    <loc>https://www.call-center.id/artikel/mengenal-aplikasi-ewallet-terpopuler-di-indonesia/</loc>
     <lastmod>2024-01-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
 </urlset>

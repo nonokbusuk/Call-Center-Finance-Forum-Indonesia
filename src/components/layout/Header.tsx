@@ -1,39 +1,40 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Menu, X, Moon, Sun, User, Search } from 'lucide-react'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { useTheme } from '../ThemeProvider'
+"use client";
 
-console.log('Header component loaded')
+import { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X, Moon, Sun, User, Search } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { useTheme } from '../ThemeProvider';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-  }
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
 
   const navItems = [
     { name: 'Home', href: '/' },
-    { name: 'Forum', href: '/forum' },
-    { name: 'Artikel', href: '/artikel' },
-    { name: 'OJK & Regulasi', href: '/ojk-regulasi' },
-    { name: 'Edukasi Keuangan', href: '/edukasi-keuangan' },
-    { name: 'Kontak', href: '/kontak' },
-  ]
+    { name: 'Forum', href: '/forum/' },
+    { name: 'Artikel', href: '/artikel/' },
+    { name: 'OJK & Regulasi', href: '/ojk-regulasi/' },
+    { name: 'Edukasi Keuangan', href: '/edukasi-keuangan/' },
+    { name: 'Kontak', href: '/kontak/' },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="https://cdn-ai.onspace.ai/onspace/project/image/2hGG6P7tn8CTHN87f9mtSp/call-center.png" 
-              alt="Call Center Finance Indonesia" 
+          <Link href="/" className="flex items-center space-x-2">
+            <img
+              src="https://cdn-ai.onspace.ai/onspace/project/image/2hGG6P7tn8CTHN87f9mtSp/call-center.png"
+              alt="Call Center Finance Indonesia"
               className="h-10 w-auto"
+              loading="lazy"
             />
             <div className="hidden sm:block">
               <span className="text-xl font-bold finance-text-gradient">call-center.id</span>
@@ -45,7 +46,7 @@ const Header = () => {
             {navItems.map((item) => (
               <Link
                 key={item.name}
-                to={item.href}
+                href={item.href}
                 className="text-sm font-medium transition-colors hover:text-primary"
               >
                 {item.name}
@@ -82,7 +83,7 @@ const Header = () => {
             </Button>
 
             {/* User Menu */}
-            <Link to="/login">
+            <Link href="/login/" passHref legacyBehavior>
               <Button variant="ghost" size="icon" className="h-9 w-9">
                 <User className="h-4 w-4" />
               </Button>
@@ -111,7 +112,7 @@ const Header = () => {
               {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  to={item.href}
+                  href={item.href}
                   className="text-sm font-medium transition-colors hover:text-primary px-2 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -134,7 +135,7 @@ const Header = () => {
         )}
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
