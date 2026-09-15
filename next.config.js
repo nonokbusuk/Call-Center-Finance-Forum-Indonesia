@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  output: 'export',
+  trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -9,6 +10,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -20,41 +22,6 @@ const nextConfig = {
       },
     ],
     minimumCacheTTL: 60,
-  },
-  headers: async () => {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-        ],
-      },
-    ];
-  },
-  redirects: async () => {
-    return [
-      {
-        source: '/forum/:category',
-        destination: '/forum/:category/',
-        permanent: true,
-      },
-      {
-        source: '/artikel/:slug',
-        destination: '/artikel/:slug/',
-        permanent: true,
-      },
-    ];
   },
 };
 

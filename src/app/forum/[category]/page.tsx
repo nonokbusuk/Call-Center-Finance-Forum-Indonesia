@@ -94,6 +94,10 @@ export async function generateMetadata({ params }: { params: { category: string 
   };
 }
 
+export function generateStaticParams() {
+  return Object.keys(categoryDisplayNames).map((category) => ({ category }));
+}
+
 // Breadcrumb Schema
 function generateBreadcrumbSchema(category: string) {
   const displayName = categoryDisplayNames[category] || category;
@@ -141,10 +145,8 @@ function generateWebPageSchema(category: string) {
 
 export default function ForumCategoryPage({
   params,
-  searchParams,
 }: {
   params: { category: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const category = params.category;
   const displayName = categoryDisplayNames[category] || category;
@@ -154,8 +156,8 @@ export default function ForumCategoryPage({
     return notFound();
   }
 
-  const searchTerm = searchParams.search as string || '';
-  const sortBy = searchParams.sort as string || 'latest';
+  const searchTerm = '';
+  const sortBy = 'latest';
 
   const filteredThreads = forumThreads.filter((thread) => {
     const matchesSearch = thread.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

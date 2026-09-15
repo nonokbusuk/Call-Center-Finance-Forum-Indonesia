@@ -182,14 +182,10 @@ const webpageSchema = {
   },
 };
 
-export default function ForumPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const searchTerm = searchParams.search as string || '';
-  const sortBy = searchParams.sort as string || 'latest';
-  const category = searchParams.category as string || '';
+export default function ForumPage() {
+  const searchTerm = '';
+  const sortBy = 'latest';
+  const category = '';
 
   const filteredThreads = forumThreads.filter((thread) => {
     const matchesSearch = thread.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -107,6 +107,10 @@ const articles: Record<string, any> = {
   },
 };
 
+export function generateStaticParams() {
+  return Object.keys(articles).map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const article = articles[params.slug];
   
@@ -227,24 +231,12 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
   const articleSchema = generateArticleSchema(article);
   const webpageSchema = generateWebPageSchema(article);
 
-  const handleShare = (platform: string) => {
-    const url = `https://www.call-center.id/artikel/${article.slug}/`;
-    const text = article.title;
-
-    switch (platform) {
-      case 'whatsapp':
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
-        break;
-      case 'telegram':
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
-        break;
-      case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
-        break;
-      case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-        break;
-    }
+  const shareUrl = `https://www.call-center.id/artikel/${article.slug}/`;
+  const shareText = encodeURIComponent(article.title);
+  const shareLinks = {
+    whatsapp: `https://wa.me/?text=${shareText}%20${encodeURIComponent(shareUrl)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+    twitter: `https://twitter.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(shareUrl)}`,
   };
 
   return (
@@ -323,33 +315,21 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
               {/* Share Buttons */}
               <div className="flex items-center gap-2 mb-8">
                 <span className="text-sm text-muted-foreground mr-4">Bagikan:</span>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('whatsapp')}
-                  title="Share ke WhatsApp"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('facebook')}
-                  title="Share ke Facebook"
-                >
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('twitter')}
-                  title="Share ke Twitter"
-                >
-                  <Twitter className="h-4 w-4" />
-                </Button>
+                <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer" title="Share ke WhatsApp">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <MessageCircle className="h-4 w-4" />
+                  </Button>
+                </a>
+                <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" title="Share ke Facebook">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <Facebook className="h-4 w-4" />
+                  </Button>
+                </a>
+                <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" title="Share ke Twitter">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <Twitter className="h-4 w-4" />
+                  </Button>
+                </a>
               </div>
 
               {/* Article Content */}
@@ -361,33 +341,21 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
               {/* Share Buttons (Bottom) */}
               <div className="flex items-center gap-2 mt-12 pt-8 border-t">
                 <span className="text-sm text-muted-foreground mr-4">Bagikan artikel ini:</span>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('whatsapp')}
-                  title="Share ke WhatsApp"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('facebook')}
-                  title="Share ke Facebook"
-                >
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('twitter')}
-                  title="Share ke Twitter"
-                >
-                  <Twitter className="h-4 w-4" />
-                </Button>
+                <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer" title="Share ke WhatsApp">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <MessageCircle className="h-4 w-4" />
+                  </Button>
+                </a>
+                <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" title="Share ke Facebook">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <Facebook className="h-4 w-4" />
+                  </Button>
+                </a>
+                <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" title="Share ke Twitter">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <Twitter className="h-4 w-4" />
+                  </Button>
+                </a>
               </div>
             </div>
 
