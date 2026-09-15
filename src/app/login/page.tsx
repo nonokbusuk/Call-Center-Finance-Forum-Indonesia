@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Login | Call Center Finance Indonesia',
   description: 'Masuk ke akun Anda untuk mengakses semua fitur forum diskusi keuangan.',
   keywords: ['login', 'masuk', 'akun', 'forum keuangan', 'authentikasi'],
-  canonical: 'https://www.call-center.id/login/',
+  alternates: { canonical: 'https://www.call-center.id/login/' },
   robots: {
     index: false,
     follow: false,

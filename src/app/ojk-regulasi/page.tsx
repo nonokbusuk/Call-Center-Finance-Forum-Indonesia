@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Calendar, User, Eye, BookOpen, Balance } from 'lucide-react';
+import { Calendar, User, Eye, BookOpen, Scale } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'OJK & Regulasi Keuangan | Call Center Finance Indonesia',
   description: 'Informasi terbaru seputar regulasi, kebijakan, dan update dari Otoritas Jasa Keuangan (OJK). Tetap update dengan perkembangan industri keuangan Indonesia.',
   keywords: ['OJK', 'regulasi keuangan', 'kebijakan fintech', 'peraturan perbankan', 'asuransi regulasi', 'investasi aturan'],
-  canonical: 'https://www.call-center.id/ojk-regulasi/',
+  alternates: { canonical: 'https://www.call-center.id/ojk-regulasi/' },
   openGraph: {
     title: 'OJK & Regulasi Keuangan | Call Center Finance Indonesia',
     description: 'Informasi terbaru seputar regulasi dan kebijakan keuangan',
@@ -152,7 +152,7 @@ export default function OjkRegulasiPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Balance className="h-10 w-10 text-finance-gold" />
+              <Scale className="h-10 w-10 text-finance-gold" />
               <h1 className="text-4xl font-bold">OJK & Regulasi Keuangan</h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -229,7 +229,7 @@ export default function OjkRegulasiPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Balance className="h-6 w-6 text-finance-gold" />
+                  <Scale className="h-6 w-6 text-finance-gold" />
                   Link Penting OJK
                 </CardTitle>
               </CardHeader>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Daftar Akun Baru | Call Center Finance Indonesia',
   description: 'Buat akun baru untuk bergabung dengan forum diskusi keuangan terbesar di Indonesia.',
   keywords: ['daftar', 'registrasi', 'buat akun', 'forum keuangan', 'pendaftaran'],
-  canonical: 'https://www.call-center.id/register/',
+  alternates: { canonical: 'https://www.call-center.id/register/' },
   robots: {
     index: false,
     follow: false,
