@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: { params: { category: string 
     title: `${displayName} | Forum Diskusi Keuangan | Call Center Finance Indonesia`,
     description: `Diskusi seputar ${displayName.toLowerCase()} - berbagi pengalaman dan dapatkan solusi masalah keuangan Anda.`,
     keywords: [category, 'forum keuangan', 'diskusi', 'fintech', 'investasi', 'perbankan'],
-    canonical: `https://www.call-center.id/forum/${category}/`,
+    alternates: { canonical: `https://www.call-center.id/forum/${category}/` },
     openGraph: {
       title: `${displayName} | Forum Diskusi Keuangan`,
       description: `Diskusi seputar ${displayName.toLowerCase()}`,

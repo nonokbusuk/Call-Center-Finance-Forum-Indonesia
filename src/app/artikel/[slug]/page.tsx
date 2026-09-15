@@ -121,7 +121,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${article.title} | Call Center Finance Indonesia`,
     description: article.excerpt,
     keywords: [...article.tags, 'artikel keuangan', 'berita fintech', 'investasi'],
-    canonical: `https://www.call-center.id/artikel/${article.slug}/`,
+    alternates: { canonical: `https://www.call-center.id/artikel/${article.slug}/` },
     openGraph: {
       title: article.title,
       description: article.excerpt,

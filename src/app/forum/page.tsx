@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Forum Diskusi Keuangan | Call Center Finance Indonesia',
   description: 'Forum diskusi seputar keuangan, fintech, investasi, perbankan, asuransi, dan OJK. Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda.',
   keywords: ['forum keuangan', 'diskusi fintech', 'investasi', 'perbankan', 'asuransi', 'OJK', 'pinjaman online'],
-  canonical: 'https://www.call-center.id/forum/',
+  alternates: { canonical: 'https://www.call-center.id/forum/' },
   openGraph: {
     title: 'Forum Diskusi Keuangan | Call Center Finance Indonesia',
     description: 'Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda',

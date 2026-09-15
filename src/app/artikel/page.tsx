@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Artikel & Publikasi Keuangan | Call Center Finance Indonesia',
   description: 'Dapatkan insight terbaru seputar dunia keuangan Indonesia, dari berita terkini hingga analisis mendalam tentang industri finansial.',
   keywords: ['artikel keuangan', 'berita fintech', 'investasi', 'perbankan', 'asuransi', 'OJK', 'regulasi'],
-  canonical: 'https://www.call-center.id/artikel/',
+  alternates: { canonical: 'https://www.call-center.id/artikel/' },
   openGraph: {
     title: 'Artikel & Publikasi Keuangan | Call Center Finance Indonesia',
     description: 'Dapatkan insight terbaru seputar dunia keuangan Indonesia',
