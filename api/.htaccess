@@ -1,0 +1,46 @@
+# Call Center Finance Forum - cPanel .htaccess
+Options -Indexes
+DirectoryIndex index.html index.php
+
+# Custom 404
+ErrorDocument 404 /404.html
+
+# Gzip compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# Browser caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Protect sensitive files
+<FilesMatch "\.(sql|md|json)$">
+  Require all denied
+</FilesMatch>
+
+# Admin dashboard: /admin/ -> /admin/index.html
+RewriteEngine On
+RewriteRule ^admin/?$ /admin/index.html [L]
+
+# Sitemap (dynamic from database): /sitemap.xml -> /api/sitemap.php
+RewriteRule ^sitemap\.xml$ /api/sitemap.php [L]
+
+# Article list page: /artikel/ -> /api/artikel-list.php (database-driven)
+RewriteCond %{REQUEST_URI} ^/artikel/?$
+RewriteRule ^ /api/artikel-list.php [L]
+
+# Single article: /artikel/slug/ -> /api/artikel.php?slug=slug
+RewriteCond %{REQUEST_URI} ^/artikel/([a-z0-9-]+)/?$
+RewriteRule ^artikel/([a-z0-9-]+)/?$ /api/artikel.php?slug=$1 [L]
+
+# robots.txt served from static
+# favicon, _next, etc served as static files (default)

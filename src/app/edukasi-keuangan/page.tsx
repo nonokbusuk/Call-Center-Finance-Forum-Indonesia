@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Edukasi Keuangan | Call Center Finance Indonesia',
   description: 'Panduan dan pendidikan seputar keuangan untuk membantu Anda memahami dunia finansial dengan lebih baik. Dari dasar hingga tingkat lanjut.',
   keywords: ['edukasi keuangan', 'panduan investasi', 'belajar fintech', 'literasi keuangan', 'manajemen keuangan'],
-  canonical: 'https://www.call-center.id/edukasi-keuangan/',
+  alternates: { canonical: 'https://www.call-center.id/edukasi-keuangan/' },
   openGraph: {
     title: 'Edukasi Keuangan | Call Center Finance Indonesia',
     description: 'Panduan dan pendidikan seputar keuangan untuk membantu Anda memahami dunia finansial',

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Forum Diskusi Keuangan | Call Center Finance Indonesia',
   description: 'Forum diskusi seputar keuangan, fintech, investasi, perbankan, asuransi, dan OJK. Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda.',
   keywords: ['forum keuangan', 'diskusi fintech', 'investasi', 'perbankan', 'asuransi', 'OJK', 'pinjaman online'],
-  canonical: 'https://www.call-center.id/forum/',
+  alternates: { canonical: 'https://www.call-center.id/forum/' },
   openGraph: {
     title: 'Forum Diskusi Keuangan | Call Center Finance Indonesia',
     description: 'Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda',
@@ -182,14 +182,10 @@ const webpageSchema = {
   },
 };
 
-export default function ForumPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const searchTerm = searchParams.search as string || '';
-  const sortBy = searchParams.sort as string || 'latest';
-  const category = searchParams.category as string || '';
+export default function ForumPage() {
+  const searchTerm = '';
+  const sortBy = 'latest';
+  const category = '';
 
   const filteredThreads = forumThreads.filter((thread) => {
     const matchesSearch = thread.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

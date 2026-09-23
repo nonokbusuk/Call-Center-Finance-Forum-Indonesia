@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Kontak Kami | Call Center Finance Indonesia',
   description: 'Hubungi kami untuk pertanyaan, saran, atau kerjasama. Kami siap membantu Anda dalam berbagai kebutuhan informasi keuangan.',
   keywords: ['kontak', 'hubungi kami', 'customer service', 'call center keuangan', 'dukungan pelanggan'],
-  canonical: 'https://www.call-center.id/kontak/',
+  alternates: { canonical: 'https://www.call-center.id/kontak/' },
   openGraph: {
     title: 'Kontak Kami | Call Center Finance Indonesia',
     description: 'Hubungi kami untuk pertanyaan, saran, atau kerjasama',

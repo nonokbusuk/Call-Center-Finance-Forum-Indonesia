@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Artikel & Publikasi Keuangan | Call Center Finance Indonesia',
   description: 'Dapatkan insight terbaru seputar dunia keuangan Indonesia, dari berita terkini hingga analisis mendalam tentang industri finansial.',
   keywords: ['artikel keuangan', 'berita fintech', 'investasi', 'perbankan', 'asuransi', 'OJK', 'regulasi'],
-  canonical: 'https://www.call-center.id/artikel/',
+  alternates: { canonical: 'https://www.call-center.id/artikel/' },
   openGraph: {
     title: 'Artikel & Publikasi Keuangan | Call Center Finance Indonesia',
     description: 'Dapatkan insight terbaru seputar dunia keuangan Indonesia',
@@ -137,13 +137,9 @@ const webpageSchema = {
   },
 };
 
-export default function ArticlesPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const searchTerm = searchParams.search as string || '';
-  const selectedCategory = searchParams.category as string || 'all';
+export default function ArticlesPage() {
+  const searchTerm = '';
+  const selectedCategory = 'all';
 
   const filteredArticles = articles.filter((article) => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -153,23 +149,15 @@ export default function ArticlesPage({
     return matchesSearch && matchesCategory;
   });
 
-  const handleShare = (platform: string, article: any) => {
+  const buildShareLink = (platform: string, article: any) => {
     const url = `https://www.call-center.id/artikel/${article.slug}/`;
-    const text = article.title;
-
+    const text = encodeURIComponent(article.title);
+    const enc = encodeURIComponent(url);
     switch (platform) {
-      case 'whatsapp':
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
-        break;
-      case 'telegram':
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
-        break;
-      case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
-        break;
-      case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-        break;
+      case 'whatsapp': return `https://wa.me/?text=${text}%20${enc}`;
+      case 'facebook': return `https://www.facebook.com/sharer/sharer.php?u=${enc}`;
+      case 'twitter': return `https://twitter.com/intent/tweet?text=${text}&url=${enc}`;
+      default: return '#';
     }
   };
 
@@ -336,33 +324,21 @@ export default function ArticlesPage({
                     </div>
 
                     <div className="flex items-center gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleShare('whatsapp', article)}
-                        title="Share ke WhatsApp"
-                      >
-                        <MessageCircle className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleShare('facebook', article)}
-                        title="Share ke Facebook"
-                      >
-                        <Facebook className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleShare('twitter', article)}
-                        title="Share ke Twitter"
-                      >
-                        <Twitter className="h-4 w-4" />
-                      </Button>
+                      <a href={buildShareLink('whatsapp', article)} target="_blank" rel="noopener noreferrer" title="Share ke WhatsApp">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                          <MessageCircle className="h-4 w-4" />
+                        </Button>
+                      </a>
+                      <a href={buildShareLink('facebook', article)} target="_blank" rel="noopener noreferrer" title="Share ke Facebook">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                          <Facebook className="h-4 w-4" />
+                        </Button>
+                      </a>
+                      <a href={buildShareLink('twitter', article)} target="_blank" rel="noopener noreferrer" title="Share ke Twitter">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                          <Twitter className="h-4 w-4" />
+                        </Button>
+                      </a>
                     </div>
                   </div>
                 </CardContent>
