@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Moon, Sun, User, Search } from 'lucide-react';
+import { Menu, X, Moon, Sun, Search } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useTheme } from '../ThemeProvider';
@@ -82,12 +82,6 @@ const Header = () => {
               )}
             </Button>
 
-            {/* User Menu */}
-            <Link href="/login/" passHref legacyBehavior>
-              <Button variant="ghost" size="icon" className="h-9 w-9">
-                <User className="h-4 w-4" />
-              </Button>
-            </Link>
 
             {/* Mobile Menu Toggle */}
             <Button

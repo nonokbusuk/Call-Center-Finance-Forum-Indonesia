@@ -7,108 +7,17 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { prisma } from '@/lib/db';
 
-// Mock articles data
-const articles: Record<string, any> = {
-  'ojk-luncurkan-roadmap-pengembangan-fintech-2024-2029': {
-    id: 1,
-    title: "OJK Luncurkan Roadmap Pengembangan Fintech 2024-2029",
-    content: `<p>Otoritas Jasa Keuangan (OJK) resmi meluncurkan roadmap pengembangan teknologi finansial untuk periode 2024-2029 yang fokus pada inovasi berkelanjutan dan perlindungan konsumen.</p>
-<p>Roadmap ini mencakup berbagai aspek pengembangan fintech di Indonesia, termasuk:</p>
-<ul>
-<li>Peningkatan literasi keuangan digital</li>
-<li>Penguatan perlindungan konsumen</li>
-<li>Inovasi produk dan layanan fintech</li>
-<li>Integrasi dengan sistem keuangan tradisional</li>
-</ul>
-<p>Dengan roadmap ini, OJK berharap dapat menciptakan ekosistem fintech yang sehat, inklusif, dan berkelanjutan di Indonesia.</p>`,
-    excerpt: "Otoritas Jasa Keuangan (OJK) resmi meluncurkan roadmap pengembangan teknologi finansial untuk periode 2024-2029 yang fokus pada inovasi berkelanjutan dan perlindungan konsumen.",
-    author: "Tim Redaksi",
-    publishDate: "2024-01-15",
-    category: "OJK",
-    tags: ["OJK", "Fintech", "Regulasi", "Roadmap"],
-    readTime: 5,
-    views: 1250,
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=400&fit=crop",
-    slug: "ojk-luncurkan-roadmap-pengembangan-fintech-2024-2029",
-  },
-  'tren-investasi-cryptocurrency-di-indonesia-2024': {
-    id: 2,
-    title: "Tren Investasi Cryptocurrency di Indonesia Tahun 2024",
-    content: `<p>Pasar cryptocurrency Indonesia menunjukkan pertumbuhan signifikan dengan berbagai inovasi produk dan regulasi yang semakin jelas dari pemerintah.</p>
-<p>Beberapa tren utama yang diamati:</p>
-<ul>
-<li>Peningkatan adopsi Bitcoin sebagai aset investasi</li>
-<li>Regulasi yang lebih jelas dari Bappebti</li>
-<li>Munculnya platform exchange lokal yang terpercaya</li>
-<li>Minat generasi muda terhadap crypto</li>
-</ul>`,
-    excerpt: "Pasar cryptocurrency Indonesia menunjukkan pertumbuhan signifikan dengan berbagai inovasi produk dan regulasi yang semakin jelas dari pemerintah.",
-    author: "Crypto Analyst",
-    publishDate: "2024-01-14",
-    category: "Investasi",
-    tags: ["Cryptocurrency", "Bitcoin", "Investasi", "Digital Asset"],
-    readTime: 8,
-    views: 2100,
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop",
-    slug: "tren-investasi-cryptocurrency-di-indonesia-2024",
-  },
-  'perbandingan-bunga-deposito-bank-digital-vs-konvensional': {
-    id: 3,
-    title: "Perbandingan Bunga Deposito Bank Digital vs Bank Konvensional",
-    content: `<p>Bank digital menawarkan suku bunga deposito yang lebih kompetitif dibanding bank konvensional. Simak perbandingan lengkapnya di sini.</p>
-<p>Dalam era digital banking, persaingan suku bunga deposito semakin ketat. Bank digital yang tidak memiliki biaya operasional fisik dapat menawarkan bunga yang lebih tinggi.</p>`,
-    excerpt: "Bank digital menawarkan suku bunga deposito yang lebih kompetitif dibanding bank konvensional. Simak perbandingan lengkapnya di sini.",
-    author: "Banking Expert",
-    publishDate: "2024-01-13",
-    category: "Perbankan",
-    tags: ["Deposito", "Bank Digital", "Suku Bunga", "Investasi"],
-    readTime: 6,
-    views: 890,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
-    slug: "perbandingan-bunga-deposito-bank-digital-vs-konvensional",
-  },
-  'cara-memilih-asuransi-jiwa-untuk-keluarga-muda': {
-    id: 4,
-    title: "Cara Memilih Asuransi Jiwa yang Tepat untuk Keluarga Muda",
-    content: `<p>Panduan lengkap memilih asuransi jiwa untuk keluarga muda, mulai dari jenis produk hingga tips memilih perusahaan asuransi terpercaya.</p>
-<p>Asuransi jiwa merupakan salah satu produk keuangan yang penting untuk keluarga muda. Berikut adalah panduan lengkap:</p>
-<ol>
-<li>Tentukan kebutuhan perlindungan</li>
-<li>Pilih jenis asuransi yang tepat</li>
-<li>Bandinkan premi dari berbagai perusahaan</li>
-<li>Periksa reputasi perusahaan asuransi</li>
-<li>Baca syarat dan ketentuan dengan teliti</li>
-</ol>`,
-    excerpt: "Panduan lengkap memilih asuransi jiwa untuk keluarga muda, mulai dari jenis produk hingga tips memilih perusahaan asuransi terpercaya.",
-    author: "Insurance Advisor",
-    publishDate: "2024-01-12",
-    category: "Asuransi",
-    tags: ["Asuransi Jiwa", "Keluarga", "Proteksi", "Financial Planning"],
-    readTime: 7,
-    views: 650,
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=400&fit=crop",
-    slug: "cara-memilih-asuransi-jiwa-untuk-keluarga-muda",
-  },
-  'mengenal-aplikasi-ewallet-terpopuler-di-indonesia': {
-    id: 5,
-    title: "Mengenal Lebih Dekat Aplikasi E-Wallet Terpopuler di Indonesia",
-    content: `<p>Review mendalam tentang fitur, keamanan, dan keunggulan dari aplikasi e-wallet terpopuler di Indonesia seperti GoPay, OVO, DANA, dan ShopeePay.</p>
-<p>E-wallet telah menjadi bagian tak terpisahkan dari kehidupan digital masyarakat Indonesia. Setiap platform memiliki keunggulan tersendiri.</p>`,
-    excerpt: "Review mendalam tentang fitur, keamanan, dan keunggulan dari aplikasi e-wallet terpopuler di Indonesia seperti GoPay, OVO, DANA, dan ShopeePay.",
-    author: "Fintech Reviewer",
-    publishDate: "2024-01-11",
-    category: "Fintech",
-    tags: ["E-Wallet", "Digital Payment", "GoPay", "OVO", "DANA"],
-    readTime: 9,
-    views: 1820,
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=400&fit=crop",
-    slug: "mengenal-aplikasi-ewallet-terpopuler-di-indonesia",
-  },
-};
+export const dynamic = 'force-dynamic';
+
+async function getArticle(slug: string) {
+  return prisma.article.findUnique({ where: { slug } });
+}
+
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const article = articles[params.slug];
+  const article = await getArticle(params.slug);
   
   if (!article) {
     return {
@@ -120,26 +29,28 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: `${article.title} | Call Center Finance Indonesia`,
     description: article.excerpt,
-    keywords: [...article.tags, 'artikel keuangan', 'berita fintech', 'investasi'],
-    canonical: `https://www.call-center.id/artikel/${article.slug}/`,
+    keywords: [...(article.tags ? article.tags.split(",") : []), 'artikel keuangan', 'berita fintech', 'investasi'],
+    alternates: { canonical: `https://www.call-center.id/artikel/${article.slug}/` },
     openGraph: {
       title: article.title,
       description: article.excerpt,
       url: `https://www.call-center.id/artikel/${article.slug}/`,
-      images: [
-        {
-          url: article.image,
-          width: 800,
-          height: 400,
-          alt: article.title,
-        },
-      ],
+      images: article.image
+        ? [
+            {
+              url: article.image,
+              width: 800,
+              height: 400,
+              alt: article.title,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title: article.title,
       description: article.excerpt,
-      images: [article.image],
+      images: article.image ? [article.image] : undefined,
     },
   };
 }
@@ -216,36 +127,29 @@ function generateWebPageSchema(article: any) {
   };
 }
 
-export default function ArticleDetailPage({ params }: { params: { slug: string } }) {
-  const article = articles[params.slug];
+export default async function ArticleDetailPage({ params }: { params: { slug: string } }) {
+  const dbArticle = await getArticle(params.slug);
+  const relatedArticles = dbArticle
+    ? await prisma.article.findMany({
+        where: { slug: { not: params.slug }, published: true },
+        orderBy: { publishDate: 'desc' },
+        take: 3,
+      })
+    : [];
 
-  if (!article) {
+  if (!dbArticle) {
     return notFound();
   }
+
+  const article = {
+    ...dbArticle,
+    tags: dbArticle.tags ? dbArticle.tags.split(',').map((t) => t.trim()) : [],
+    publishDate: dbArticle.publishDate.toISOString(),
+  };
 
   const breadcrumbSchema = generateBreadcrumbSchema(article);
   const articleSchema = generateArticleSchema(article);
   const webpageSchema = generateWebPageSchema(article);
-
-  const handleShare = (platform: string) => {
-    const url = `https://www.call-center.id/artikel/${article.slug}/`;
-    const text = article.title;
-
-    switch (platform) {
-      case 'whatsapp':
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
-        break;
-      case 'telegram':
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
-        break;
-      case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
-        break;
-      case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-        break;
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -302,6 +206,7 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
               </div>
 
               {/* Featured Image */}
+              {article.image && (
               <div className="mb-8">
                 <img
                   src={article.image}
@@ -310,6 +215,7 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
                   loading="lazy"
                 />
               </div>
+              )}
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-8">
@@ -323,33 +229,33 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
               {/* Share Buttons */}
               <div className="flex items-center gap-2 mb-8">
                 <span className="text-sm text-muted-foreground mr-4">Bagikan:</span>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('whatsapp')}
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(article.title + ' https://www.call-center.id/artikel/' + article.slug + '/')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-8 w-8 hover:text-primary"
                   title="Share ke WhatsApp"
                 >
                   <MessageCircle className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('facebook')}
+                </a>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://www.call-center.id/artikel/' + article.slug + '/')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-8 w-8 hover:text-primary"
                   title="Share ke Facebook"
                 >
                   <Facebook className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('twitter')}
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent('https://www.call-center.id/artikel/' + article.slug + '/')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-8 w-8 hover:text-primary"
                   title="Share ke Twitter"
                 >
                   <Twitter className="h-4 w-4" />
-                </Button>
+                </a>
               </div>
 
               {/* Article Content */}
@@ -361,33 +267,33 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
               {/* Share Buttons (Bottom) */}
               <div className="flex items-center gap-2 mt-12 pt-8 border-t">
                 <span className="text-sm text-muted-foreground mr-4">Bagikan artikel ini:</span>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('whatsapp')}
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(article.title + ' https://www.call-center.id/artikel/' + article.slug + '/')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-8 w-8 hover:text-primary"
                   title="Share ke WhatsApp"
                 >
                   <MessageCircle className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('facebook')}
+                </a>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://www.call-center.id/artikel/' + article.slug + '/')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-8 w-8 hover:text-primary"
                   title="Share ke Facebook"
                 >
                   <Facebook className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  onClick={() => handleShare('twitter')}
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent('https://www.call-center.id/artikel/' + article.slug + '/')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center h-8 w-8 hover:text-primary"
                   title="Share ke Twitter"
                 >
                   <Twitter className="h-4 w-4" />
-                </Button>
+                </a>
               </div>
             </div>
 
@@ -395,11 +301,9 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
             <div className="mt-16">
               <h2 className="text-2xl font-bold mb-6">Artikel Terkait</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Object.values(articles)
-                  .filter((a: any) => a.slug !== article.slug)
-                  .slice(0, 3)
-                  .map((related: any) => (
+                {relatedArticles.map((related) => (
                     <Card key={related.slug} className="overflow-hidden hover:shadow-lg transition-shadow">
+                      {related.image && (
                       <div className="aspect-video overflow-hidden">
                         <img
                           src={related.image}
@@ -408,6 +312,7 @@ export default function ArticleDetailPage({ params }: { params: { slug: string }
                           loading="lazy"
                         />
                       </div>
+                      )}
                       <CardHeader>
                         <Badge variant="secondary" className="mb-2">{related.category}</Badge>
                         <CardTitle className="text-lg line-clamp-2">

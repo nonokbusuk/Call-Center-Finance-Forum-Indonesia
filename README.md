@@ -1,3 +1,52 @@
+# Call Center Finance Indonesia
+
+## Admin Panel (Opsi B - Backend Penuh)
+
+Aplikasi ini sekarang punya backend penuh: **Prisma + SQLite**, API routes, dan **admin panel** di `/admin`.
+
+**Tidak ada halaman login/registrasi publik** — hanya admin panel yang butuh login.
+
+### Setup
+
+```sh
+npm i
+cp .env.example .env       # sesuaikan JWT_SECRET & kredensial admin
+npm run db:push            # buat skema database
+npm run db:seed            # seed kategori, thread, artikel, akun admin
+npm run dev
+```
+
+### Akses Admin
+
+- URL: `/admin` (redirect ke `/admin/login` jika belum masuk)
+- Kredensial default (ubah lewat env saat seed): username `admin`, password `Admin123!`
+- Ganti `JWT_SECRET` di production!
+
+### Fitur Admin
+
+- Dashboard statistik (artikel, thread, balasan, pesan)
+- CRUD artikel (publish/draft)
+- CRUD thread forum (pin/lock)
+- Moderasi balasan (hapus)
+- Kelola kategori forum
+- Inbox pesan kontak (tandai dibaca / hapus)
+
+### API
+
+| Endpoint | Auth | Method |
+|---|---|---|
+| `/api/auth/login`, `/api/auth/logout` | - | POST |
+| `/api/articles`, `/api/articles/[id]` | admin (tulis/ubah/hapus) | GET/POST/PUT/DELETE |
+| `/api/threads`, `/api/threads/[id]` | admin (tulis/ubah/hapus) | GET/POST/PUT/DELETE |
+| `/api/replies` | admin | GET/POST/DELETE |
+| `/api/categories` | admin (selain GET) | GET/POST/PUT/DELETE |
+| `/api/messages` | publik POST saja, admin sisanya | GET/POST/PUT/DELETE |
+| `/api/stats` | admin | GET |
+
+> **Catatan hosting:** butuh runtime Node.js (Vercel/VPS/Render), bukan cPanel static.
+
+---
+
 # Welcome to your OnSpace project
 
 ## How can I edit this code?

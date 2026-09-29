@@ -19,8 +19,6 @@ const staticPages = [
   { loc: '/ojk-regulasi/', changefreq: 'weekly', priority: 0.8, lastmod: '2024-01-15' },
   { loc: '/edukasi-keuangan/', changefreq: 'weekly', priority: 0.7, lastmod: '2024-01-15' },
   { loc: '/kontak/', changefreq: 'monthly', priority: 0.6, lastmod: '2024-01-15' },
-  { loc: '/login/', changefreq: 'monthly', priority: 0.5, lastmod: '2024-01-15' },
-  { loc: '/register/', changefreq: 'monthly', priority: 0.5, lastmod: '2024-01-15' },
 ];
 
 // Forum categories
