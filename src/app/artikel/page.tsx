@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Artikel & Publikasi Keuangan | Call Center Finance Indonesia',
   description: 'Dapatkan insight terbaru seputar dunia keuangan Indonesia, dari berita terkini hingga analisis mendalam tentang industri finansial.',
   keywords: ['artikel keuangan', 'berita fintech', 'investasi', 'perbankan', 'asuransi', 'OJK', 'regulasi'],
-  canonical: 'https://www.call-center.id/artikel/',
+  alternates: { canonical: 'https://www.call-center.id/artikel/' },
   openGraph: {
     title: 'Artikel & Publikasi Keuangan | Call Center Finance Indonesia',
     description: 'Dapatkan insight terbaru seputar dunia keuangan Indonesia',
@@ -21,79 +21,27 @@ export const metadata: Metadata = {
   },
 };
 
-// Mock articles data
-const articles = [
-  {
-    id: 1,
-    title: "OJK Luncurkan Roadmap Pengembangan Fintech 2024-2029",
-    excerpt: "Otoritas Jasa Keuangan (OJK) resmi meluncurkan roadmap pengembangan teknologi finansial untuk periode 2024-2029 yang fokus pada inovasi berkelanjutan dan perlindungan konsumen.",
-    content: "Roadmap ini mencakup berbagai aspek pengembangan fintech di Indonesia...",
-    author: "Tim Redaksi",
-    publishDate: "2024-01-15",
-    category: "OJK",
-    tags: ["OJK", "Fintech", "Regulasi", "Roadmap"],
-    readTime: 5,
-    views: 1250,
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=300&fit=crop",
-    slug: "ojk-luncurkan-roadmap-pengembangan-fintech-2024-2029",
-  },
-  {
-    id: 2,
-    title: "Tren Investasi Cryptocurrency di Indonesia Tahun 2024",
-    excerpt: "Pasar cryptocurrency Indonesia menunjukkan pertumbuhan signifikan dengan berbagai inovasi produk dan regulasi yang semakin jelas dari pemerintah.",
-    content: "Cryptocurrency telah menjadi alternatif investasi yang menarik bagi masyarakat Indonesia...",
-    author: "Crypto Analyst",
-    publishDate: "2024-01-14",
-    category: "Investasi",
-    tags: ["Cryptocurrency", "Bitcoin", "Investasi", "Digital Asset"],
-    readTime: 8,
-    views: 2100,
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=300&fit=crop",
-    slug: "tren-investasi-cryptocurrency-di-indonesia-2024",
-  },
-  {
-    id: 3,
-    title: "Perbandingan Bunga Deposito Bank Digital vs Bank Konvensional",
-    excerpt: "Bank digital menawarkan suku bunga deposito yang lebih kompetitif dibanding bank konvensional. Simak perbandingan lengkapnya di sini.",
-    content: "Dalam era digital banking, persaingan suku bunga deposito semakin ketat...",
-    author: "Banking Expert",
-    publishDate: "2024-01-13",
-    category: "Perbankan",
-    tags: ["Deposito", "Bank Digital", "Suku Bunga", "Investasi"],
-    readTime: 6,
-    views: 890,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop",
-    slug: "perbandingan-bunga-deposito-bank-digital-vs-konvensional",
-  },
-  {
-    id: 4,
-    title: "Cara Memilih Asuransi Jiwa yang Tepat untuk Keluarga Muda",
-    excerpt: "Panduan lengkap memilih asuransi jiwa untuk keluarga muda, mulai dari jenis produk hingga tips memilih perusahaan asuransi terpercaya.",
-    content: "Asuransi jiwa merupakan salah satu produk keuangan yang penting untuk keluarga muda...",
-    author: "Insurance Advisor",
-    publishDate: "2024-01-12",
-    category: "Asuransi",
-    tags: ["Asuransi Jiwa", "Keluarga", "Proteksi", "Financial Planning"],
-    readTime: 7,
-    views: 650,
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&h=300&fit=crop",
-    slug: "cara-memilih-asuransi-jiwa-untuk-keluarga-muda",
-  },
-  {
-    id: 5,
-    title: "Mengenal Lebih Dekat Aplikasi E-Wallet Terpopuler di Indonesia",
-    excerpt: "Review mendalam tentang fitur, keamanan, dan keunggulan dari aplikasi e-wallet terpopuler di Indonesia seperti GoPay, OVO, DANA, dan ShopeePay.",
-    content: "E-wallet telah menjadi bagian tak terpisahkan dari kehidupan digital masyarakat Indonesia...",
-    author: "Fintech Reviewer",
-    publishDate: "2024-01-11",
-    category: "Fintech",
-    tags: ["E-Wallet", "Digital Payment", "GoPay", "OVO", "DANA"],
-    readTime: 9,
-    views: 1820,
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=300&fit=crop",
-    slug: "mengenal-aplikasi-ewallet-terpopuler-di-indonesia",
-  },
-];
+import { prisma } from '@/lib/db';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.call-center.id/" },
+    { "@type": "ListItem", "position": 2, "name": "Artikel", "item": "https://www.call-center.id/artikel/" },
+  ],
+};
+
+const webpageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Artikel & Publikasi Keuangan",
+  "url": "https://www.call-center.id/artikel/",
+  "description": "Dapatkan insight terbaru seputar dunia keuangan Indonesia",
+  "publisher": { "@type": "Organization", "name": "Call Center Finance Indonesia" },
+};
+
+export const dynamic = 'force-dynamic';
 
 const categories = [
   { value: 'all', label: 'Semua Kategori' },
@@ -104,40 +52,7 @@ const categories = [
   { value: 'investasi', label: 'Investasi' },
 ];
 
-// Breadcrumb Schema
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://www.call-center.id/",
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Artikel",
-      "item": "https://www.call-center.id/artikel/",
-    },
-  ],
-};
-
-// WebPage Schema
-const webpageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Artikel & Publikasi Keuangan",
-  "url": "https://www.call-center.id/artikel/",
-  "description": "Dapatkan insight terbaru seputar dunia keuangan Indonesia",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Call Center Finance Indonesia",
-  },
-};
-
-export default function ArticlesPage({
+export default async function ArticlesPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -145,33 +60,31 @@ export default function ArticlesPage({
   const searchTerm = searchParams.search as string || '';
   const selectedCategory = searchParams.category as string || 'all';
 
-  const filteredArticles = articles.filter((article) => {
-    const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' ||
-                           article.category.toLowerCase() === selectedCategory;
-    return matchesSearch && matchesCategory;
+  const dbArticles = await prisma.article.findMany({
+    where: {
+      published: true,
+      AND: [
+        searchTerm
+          ? {
+              OR: [
+                { title: { contains: searchTerm } },
+                { excerpt: { contains: searchTerm } },
+              ],
+            }
+          : {},
+        selectedCategory !== 'all'
+          ? { category: selectedCategory }
+          : {},
+      ],
+    },
+    orderBy: { publishDate: 'desc' },
   });
 
-  const handleShare = (platform: string, article: any) => {
-    const url = `https://www.call-center.id/artikel/${article.slug}/`;
-    const text = article.title;
-
-    switch (platform) {
-      case 'whatsapp':
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
-        break;
-      case 'telegram':
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
-        break;
-      case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
-        break;
-      case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-        break;
-    }
-  };
+  const filteredArticles = dbArticles.map((a) => ({
+    ...a,
+    tags: a.tags ? a.tags.split(',').map((t) => t.trim()) : [],
+    publishDate: a.publishDate.toISOString(),
+  }));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -223,7 +136,7 @@ export default function ArticlesPage({
           </div>
 
           {/* Featured Article */}
-          {filteredArticles.length > 0 && (
+          {filteredArticles.length > 0 && filteredArticles[0].image && (
             <Card className="mb-12 overflow-hidden">
               <div className="md:flex">
                 <div className="md:w-1/2">
@@ -279,6 +192,7 @@ export default function ArticlesPage({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredArticles.slice(1).map((article) => (
               <Card key={article.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                {article.image && (
                 <div className="aspect-video overflow-hidden">
                   <img
                     src={article.image}
@@ -287,6 +201,7 @@ export default function ArticlesPage({
                     loading="lazy"
                   />
                 </div>
+                )}
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="secondary">{article.category}</Badge>
@@ -335,35 +250,6 @@ export default function ArticlesPage({
                       )}
                     </div>
 
-                    <div className="flex items-center gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleShare('whatsapp', article)}
-                        title="Share ke WhatsApp"
-                      >
-                        <MessageCircle className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleShare('facebook', article)}
-                        title="Share ke Facebook"
-                      >
-                        <Facebook className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleShare('twitter', article)}
-                        title="Share ke Twitter"
-                      >
-                        <Twitter className="h-4 w-4" />
-                      </Button>
-                    </div>
                   </div>
                 </CardContent>
               </Card>

@@ -1,146 +1,74 @@
-import { Metadata } from 'next';
-import { Plus, Search, Filter, MessageCircle, ThumbsUp, ThumbsDown, Pin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Link from 'next/link';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import { Metadata } from "next";
+import {
+  Plus,
+  Search,
+  Filter,
+  MessageCircle,
+  ThumbsUp,
+  ThumbsDown,
+  Pin,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Link from "next/link";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { prisma } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: 'Forum Diskusi Keuangan | Call Center Finance Indonesia',
-  description: 'Forum diskusi seputar keuangan, fintech, investasi, perbankan, asuransi, dan OJK. Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda.',
-  keywords: ['forum keuangan', 'diskusi fintech', 'investasi', 'perbankan', 'asuransi', 'OJK', 'pinjaman online'],
-  canonical: 'https://www.call-center.id/forum/',
+  title: "Forum Diskusi Keuangan | Call Center Finance Indonesia",
+  description:
+    "Forum diskusi seputar keuangan, fintech, investasi, perbankan, asuransi, dan OJK. Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda.",
+  keywords: [
+    "forum keuangan",
+    "diskusi fintech",
+    "investasi",
+    "perbankan",
+    "asuransi",
+    "OJK",
+    "pinjaman online",
+  ],
+  alternates: { canonical: "https://www.call-center.id/forum/" },
   openGraph: {
-    title: 'Forum Diskusi Keuangan | Call Center Finance Indonesia',
-    description: 'Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda',
-    url: 'https://www.call-center.id/forum/',
+    title: "Forum Diskusi Keuangan | Call Center Finance Indonesia",
+    description: "Berbagi pengalaman dan dapatkan solusi masalah keuangan Anda",
+    url: "https://www.call-center.id/forum/",
   },
 };
-
-// Mock forum threads data
-const forumThreads = [
-  {
-    id: 1,
-    title: "Bagaimana cara keluar dari jeratan pinjol ilegal?",
-    content: "Saya terjebak dengan beberapa pinjaman online ilegal dan sekarang ditagih dengan cara yang tidak wajar...",
-    author: "Anonymous123",
-    category: "Pinjaman Online",
-    replies: 23,
-    views: 456,
-    upvotes: 15,
-    downvotes: 2,
-    timeAgo: "2 jam lalu",
-    isPinned: true,
-    slug: "bagaimana-cara-keluar-dari-jeratan-pinjol-ilegal",
-    lastReply: {
-      author: "FinancialAdvisor",
-      timeAgo: "30 menit lalu",
-    },
-  },
-  {
-    id: 2,
-    title: "Review Bank Digital Jenius vs Bank Jago - Mana yang lebih baik?",
-    content: "Mau pindah ke bank digital, bingung pilih antara Jenius dan Bank Jago. Ada yang punya pengalaman?",
-    author: "DigitalBanker",
-    category: "Perbankan",
-    replies: 18,
-    views: 892,
-    upvotes: 24,
-    downvotes: 1,
-    timeAgo: "4 jam lalu",
-    isPinned: false,
-    slug: "review-bank-digital-jenius-vs-bank-jago",
-    lastReply: {
-      author: "BankExpert",
-      timeAgo: "1 jam lalu",
-    },
-  },
-  {
-    id: 3,
-    title: "Tips investasi saham untuk gaji UMR",
-    content: "Dengan gaji UMR, apakah masih bisa investasi saham? Berapa minimal yang harus dialokasikan?",
-    author: "NewInvestor",
-    category: "Investasi",
-    replies: 31,
-    views: 1250,
-    upvotes: 42,
-    downvotes: 3,
-    timeAgo: "6 jam lalu",
-    isPinned: false,
-    slug: "tips-investasi-saham-untuk-gaji-umr",
-    lastReply: {
-      author: "StockGuru",
-      timeAgo: "2 jam lalu",
-    },
-  },
-  {
-    id: 4,
-    title: "Asuransi kesehatan swasta vs BPJS - Perbandingan lengkap",
-    content: "Setelah riset panjang, ini perbandingan detail antara asuransi kesehatan swasta dan BPJS...",
-    author: "HealthInsurer",
-    category: "Asuransi",
-    replies: 15,
-    views: 678,
-    upvotes: 28,
-    downvotes: 0,
-    timeAgo: "8 jam lalu",
-    isPinned: false,
-    slug: "asuransi-kesehatan-swasta-vs-bpjs-perbandingan-lengkap",
-    lastReply: {
-      author: "MedicalExpert",
-      timeAgo: "3 jam lalu",
-    },
-  },
-  {
-    id: 5,
-    title: "Update regulasi OJK terbaru untuk P2P Lending",
-    content: "OJK baru saja mengeluarkan regulasi baru untuk platform P2P lending. Apa dampaknya bagi investor?",
-    author: "RegulationWatcher",
-    category: "OJK & Regulasi",
-    replies: 7,
-    views: 234,
-    upvotes: 12,
-    downvotes: 1,
-    timeAgo: "1 hari lalu",
-    isPinned: false,
-    slug: "update-regulasi-ojk-terbaru-untuk-p2p-lending",
-    lastReply: {
-      author: "LegalExpert",
-      timeAgo: "5 jam lalu",
-    },
-  },
-];
-
-const categories = [
-  "Semua Kategori",
-  "Pinjaman Online",
-  "Perbankan",
-  "Investasi",
-  "Asuransi",
-  "Fintech",
-  "OJK & Regulasi",
-];
 
 // Breadcrumb Schema
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://www.call-center.id/",
+      position: 1,
+      name: "Home",
+      item: "https://www.call-center.id/",
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Forum",
-      "item": "https://www.call-center.id/forum/",
+      position: 2,
+      name: "Forum",
+      item: "https://www.call-center.id/forum/",
     },
   ],
 };
@@ -149,21 +77,21 @@ const breadcrumbSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "Bagaimana cara membuat thread baru?",
-      "acceptedAnswer": {
+      name: "Bagaimana cara membuat thread baru?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Klik tombol Buat Thread Baru di halaman forum, kemudian isi judul, kategori, dan konten diskusi Anda.",
+        text: "Klik tombol Buat Thread Baru di halaman forum, kemudian isi judul, kategori, dan konten diskusi Anda.",
       },
     },
     {
       "@type": "Question",
-      "name": "Apakah saya perlu login untuk berkomentar?",
-      "acceptedAnswer": {
+      name: "Apakah saya perlu login untuk berkomentar?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Ya, Anda perlu mendaftar dan login terlebih dahulu untuk dapat membuat thread atau berkomentar.",
+        text: "Ya, Anda perlu mendaftar dan login terlebih dahulu untuk dapat membuat thread atau berkomentar.",
       },
     },
   ],
@@ -173,49 +101,61 @@ const faqSchema = {
 const webpageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Forum Diskusi Keuangan",
-  "url": "https://www.call-center.id/forum/",
-  "description": "Forum diskusi seputar keuangan, fintech, investasi, perbankan, asuransi, dan OJK",
-  "publisher": {
+  name: "Forum Diskusi Keuangan",
+  url: "https://www.call-center.id/forum/",
+  description:
+    "Forum diskusi seputar keuangan, fintech, investasi, perbankan, asuransi, dan OJK",
+  publisher: {
     "@type": "Organization",
-    "name": "Call Center Finance Indonesia",
+    name: "Call Center Finance Indonesia",
   },
 };
 
-export default function ForumPage({
+function timeAgo(date: Date): string {
+  const diff = Date.now() - date.getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 60) return `${minutes} menit lalu`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} jam lalu`;
+  const days = Math.floor(hours / 24);
+  return `${days} hari lalu`;
+}
+
+export default async function ForumPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | undefined };
 }) {
-  const searchTerm = searchParams.search as string || '';
-  const sortBy = searchParams.sort as string || 'latest';
-  const category = searchParams.category as string || '';
+  const sortBy = (searchParams.sort as string) || "latest";
 
-  const filteredThreads = forumThreads.filter((thread) => {
-    const matchesSearch = thread.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         thread.content.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = !category || category === 'all' ||
-                           thread.category.toLowerCase().replace(/[\s&]/g, '-') === category;
-    return matchesSearch && matchesCategory;
-  });
+  const [dbThreads, categories] = await Promise.all([
+    prisma.forumThread.findMany({
+      include: {
+        category: true,
+        replies: { orderBy: { createdAt: "desc" }, take: 1 },
+        _count: { select: { replies: true } },
+      },
+      orderBy: [{ isPinned: "desc" }, { createdAt: "desc" }],
+    }),
+    prisma.forumCategory.findMany({ orderBy: { order: "asc" } }),
+  ]);
 
-  const sortedThreads = [...filteredThreads].sort((a, b) => {
+  const sortedThreads = [...dbThreads].sort((a, b) => {
+    if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
     switch (sortBy) {
-      case 'popular':
-        return (b.upvotes + b.replies) - (a.upvotes + a.replies);
-      case 'replies':
-        return b.replies - a.replies;
-      case 'views':
+      case "popular":
+        return b.upvotes - a.upvotes;
+      case "views":
         return b.views - a.views;
       default:
-        return b.id - a.id;
+        return b.createdAt.getTime() - a.createdAt.getTime();
     }
   });
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-1">
         {/* JSON-LD Schemas */}
         <script
@@ -258,7 +198,7 @@ export default function ForumPage({
                   <Input
                     type="search"
                     placeholder="Cari diskusi..."
-                    defaultValue={searchTerm}
+                    
                     className="pl-10"
                   />
                 </div>
@@ -278,7 +218,10 @@ export default function ForumPage({
               {/* Forum Threads */}
               <div className="space-y-4">
                 {sortedThreads.map((thread) => (
-                  <Card key={thread.id} className="hover:shadow-lg transition-shadow">
+                  <Card
+                    key={thread.id}
+                    className="hover:shadow-lg transition-shadow"
+                  >
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -286,11 +229,18 @@ export default function ForumPage({
                             {thread.isPinned && (
                               <Pin className="h-4 w-4 text-finance-gold" />
                             )}
-                            <Badge variant="secondary">{thread.category}</Badge>
-                            <span className="text-sm text-muted-foreground">{thread.timeAgo}</span>
+                            <Badge variant="secondary">
+                              {thread.category.name}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">
+                              {timeAgo(thread.createdAt)}
+                            </span>
                           </div>
                           <CardTitle className="text-lg mb-2">
-                            <Link href={`/forum/${thread.slug}/`} className="hover:text-primary transition-colors">
+                            <Link
+                              href={`/forum/${thread.slug}/`}
+                              className="hover:text-primary transition-colors"
+                            >
                               {thread.title}
                             </Link>
                           </CardTitle>
@@ -300,10 +250,13 @@ export default function ForumPage({
                           <div className="flex items-center gap-1 text-sm text-muted-foreground">
                             <span>oleh</span>
                             <span className="font-medium">{thread.author}</span>
-                            {thread.lastReply && (
+                            {thread.replies[0] && (
                               <>
                                 <span className="mx-2">•</span>
-                                <span>terakhir oleh {thread.lastReply.author} {thread.lastReply.timeAgo}</span>
+                                <span>
+                                  terakhir oleh {thread.replies[0].author}{" "}
+                                  {timeAgo(thread.replies[0].createdAt)}
+                                </span>
                               </>
                             )}
                           </div>
@@ -315,7 +268,7 @@ export default function ForumPage({
                         <div className="flex items-center gap-6 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <MessageCircle className="h-4 w-4" />
-                            <span>{thread.replies}</span>
+                            <span>{thread._count.replies}</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <span>{thread.views} views</span>
@@ -339,7 +292,9 @@ export default function ForumPage({
 
               {sortedThreads.length === 0 && (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">Tidak ada diskusi yang ditemukan</p>
+                  <p className="text-muted-foreground">
+                    Tidak ada diskusi yang ditemukan
+                  </p>
                 </div>
               )}
             </div>
@@ -353,23 +308,15 @@ export default function ForumPage({
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {categories.map((cat) => {
-                      const catSlug = cat === "Semua Kategori" ? "" : cat.toLowerCase().replace(/[\s&]/g, '-');
-                      const href = catSlug ? `/forum/${catSlug}/` : '/forum/';
-                      return (
-                        <Link
-                          key={cat}
-                          href={href}
-                          className={`block p-2 rounded-md text-sm transition-colors ${
-                            (!category && cat === "Semua Kategori") || cat.toLowerCase().replace(/[\s&]/g, '-') === category
-                              ? 'bg-primary text-primary-foreground'
-                              : 'hover:bg-muted'
-                          }`}
-                        >
-                          {cat}
-                        </Link>
-                      );
-                    })}
+                    {categories.map((cat) => (
+                      <Link
+                        key={cat.id}
+                        href={`/forum/${cat.slug}/`}
+                        className="block p-2 rounded-md text-sm transition-colors hover:bg-muted"
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
@@ -391,7 +338,9 @@ export default function ForumPage({
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-finance-gold mt-1">•</span>
-                      <span>Berikan informasi yang akurat dan terverifikasi</span>
+                      <span>
+                        Berikan informasi yang akurat dan terverifikasi
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-finance-gold mt-1">•</span>

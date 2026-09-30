@@ -1,0 +1,15 @@
+# Call Center Finance Indonesia - Admin Panel (cPanel/PHP)
+# Letakkan isi folder ini di luar public_html TIDAK diperlukan - folder ini memang untuk public_html
+
+# Proteksi folder config/includes dari akses langsung
+<FilesMatch "^(config|db|auth|helpers)\.php$">
+  Require all denied
+</FilesMatch>
+
+# Blokir akses file SQL
+<FilesMatch "\.sql$">
+  Require all denied
+</FilesMatch>
+
+# Non-aktifkan directory listing
+Options -Indexes

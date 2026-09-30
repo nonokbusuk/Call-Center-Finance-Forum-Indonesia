@@ -8,12 +8,13 @@ import { Textarea } from '@/components/ui/textarea';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
   title: 'Kontak Kami | Call Center Finance Indonesia',
   description: 'Hubungi kami untuk pertanyaan, saran, atau kerjasama. Kami siap membantu Anda dalam berbagai kebutuhan informasi keuangan.',
   keywords: ['kontak', 'hubungi kami', 'customer service', 'call center keuangan', 'dukungan pelanggan'],
-  canonical: 'https://www.call-center.id/kontak/',
+  alternates: { canonical: 'https://www.call-center.id/kontak/' },
   openGraph: {
     title: 'Kontak Kami | Call Center Finance Indonesia',
     description: 'Hubungi kami untuk pertanyaan, saran, atau kerjasama',
@@ -144,70 +145,7 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Contact Form */}
-            <Card className="p-6">
-              <CardHeader>
-                <CardTitle className="text-2xl">Kirim Pesan</CardTitle>
-                <CardDescription>
-                  Isi formulir di bawah ini untuk menghubungi kami
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Nama Lengkap</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      placeholder="Masukkan nama lengkap Anda"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Masukkan alamat email Anda"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Nomor Telepon</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="Masukkan nomor telepon Anda"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subjek</Label>
-                    <Input
-                      id="subject"
-                      type="text"
-                      placeholder="Masukkan subjek pesan"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Pesan</Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tulis pesan Anda di sini..."
-                      rows={5}
-                      required
-                    />
-                  </div>
-
-                  <Button type="submit" size="lg" className="w-full bg-finance-gold hover:bg-finance-gold/90 text-finance-navy">
-                    Kirim Pesan
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+            <ContactForm />
 
             {/* Contact Information */}
             <div className="space-y-6">
