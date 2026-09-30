@@ -26,7 +26,7 @@ $unread = (int) db_fetch_one('SELECT COUNT(*) AS c FROM contact_messages WHERE i
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Admin Panel | Call Center Finance Indonesia</title>
-<link rel="stylesheet" href="assets/admin.css">
+<link rel="stylesheet" href="assets/admin.css?v=3">
 </head>
 <body>
 <div class="layout">
