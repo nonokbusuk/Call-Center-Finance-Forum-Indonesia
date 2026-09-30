@@ -6,6 +6,9 @@ $stats = [
     'threads' => (int) db_fetch_one('SELECT COUNT(*) AS c FROM forum_threads')['c'],
     'replies' => (int) db_fetch_one('SELECT COUNT(*) AS c FROM forum_replies')['c'],
     'messages' => (int) db_fetch_one('SELECT COUNT(*) AS c FROM contact_messages')['c'],
+    'companies' => (int) db_fetch_one('SELECT COUNT(*) AS c FROM finance_companies WHERE published = 1')['c'],
+    'keywords' => (int) db_fetch_one('SELECT COUNT(*) AS c FROM keywords')['c'],
+    'pages' => (int) db_fetch_one('SELECT COUNT(*) AS c FROM pages')['c'],
 ];
 $unread = (int) db_fetch_one('SELECT COUNT(*) AS c FROM contact_messages WHERE is_read = 0')['c'];
 $recent_articles = db_fetch_all('SELECT title, slug, publish_date FROM articles ORDER BY publish_date DESC LIMIT 5');
@@ -29,6 +32,18 @@ $recent_threads = db_fetch_all('SELECT t.title, c.name AS category FROM forum_th
   <a href="pesan.php" class="stat-card">
     <span class="stat-label">Pesan<?= $unread > 0 ? ' (' . $unread . ' baru)' : '' ?></span>
     <span class="stat-value"><?= $stats['messages'] ?></span>
+  </a>
+  <a href="perusahaan.php" class="stat-card">
+    <span class="stat-label">Perusahaan Finance</span>
+    <span class="stat-value"><?= $stats['companies'] ?></span>
+  </a>
+  <a href="keyword.php" class="stat-card">
+    <span class="stat-label">Keyword Dipantau</span>
+    <span class="stat-value"><?= $stats['keywords'] ?></span>
+  </a>
+  <a href="halaman.php" class="stat-card">
+    <span class="stat-label">Halaman CMS</span>
+    <span class="stat-value"><?= $stats['pages'] ?></span>
   </a>
 </div>
 

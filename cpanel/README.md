@@ -87,3 +87,89 @@ Pesan masuk langsung muncul di **Pesan Kontak** admin panel.
   - Login benar/salah, proteksi route (redirect tanpa sesi), logout
   - CRUD artikel, thread, kategori — create/update/delete semua OK
   - API kontak menyimpan pesan, muncul di inbox admin dengan badge "Baru"
+
+---
+
+# v2 — Full Site Control + Keyword Trend + Direktori Perusahaan
+
+Update v2 menambah **kontrol penuh seluruh struktur situs** dari Admin Dashboard, tanpa perlu coding.
+
+## Halaman admin baru
+
+| Halaman | Fungsi |
+|---|---|
+| `pengaturan.php` | Edit identitas situs: nama, tagline, announcement bar, hero, kontak/footer, SEO meta, Google Analytics ID |
+| `halaman.php` | CMS halaman custom — buat/edit halaman baru dengan konten HTML + meta SEO |
+| `menu.php` | Kelola navigasi header/footer (label, URL, urutan, aktif/nonaktif) |
+| `perusahaan.php` | **Direktori perusahaan finance** — CRUD lengkap: nama, kategori, **nomor call center**, WhatsApp, email, website, alamat, rating, verified, featured, publish |
+| `keyword.php` | **Pemantau trend keyword** — saran keyword live dari Google Suggest, grafik tren 14 hari, statistik pencarian 24 jam / 7 hari / total, tambah/hapus keyword |
+
+## Tabel database baru
+
+`settings`, `pages`, `menu_items`, `finance_companies`, `keywords`, `keyword_searches`
+
+**Penting:** nomor telepon perusahaan di seed masih **placeholder** (`0812-0000-000X`) — ganti dengan nomor call center asli via menu **Direktori Perusahaan** setelah deploy.
+
+## Upgrade dari v1 (instalasi lama)
+
+Kalau `database.sql` v1 sudah terlanjur di-import, jalankan `upgrade-v2.sql` di phpMyAdmin (tab SQL / Import). Isi: 6 tabel baru + data seed. Instalasi baru cukup import `database.sql` (sudah v1+v2 merged).
+
+## API publik (untuk situs statis / frontend lain)
+
+Semua endpoint JSON, CORS terbuka (`*`), hanya data published:
+
+```js
+// 1. Semua pengaturan situs (site_name, hero_title, announcement, dll)
+fetch('https://domain-anda.com/admin/api/settings.php')
+  .then(r => r.json())
+  .then(d => console.log(d.settings));
+
+// 2. Direktori perusahaan finance — filter kategori & pencarian
+//    Setiap pencarian (q=) OTOMATIS dicatat sebagai data trend keyword
+fetch('https://domain-anda.com/admin/api/companies.php?category=Pinjaman%20Online&q=easycash')
+  .then(r => r.json())
+  .then(d => d.companies.forEach(c => {
+    console.log(c.name, c.phone, c.whatsapp, c.rating, c.is_verified);
+  }));
+
+// 3. Catat pencarian pengunjung dari situs publik ke trend tracker
+fetch('https://domain-anda.com/admin/api/track-search.php', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ keyword: 'call center easycash hubungi' })
+}).then(r => r.json()); // { ok: true }
+
+// 4. Halaman CMS & menu navigasi
+fetch('https://domain-anda.com/admin/api/pages.php?slug=tentang-kami') // 1 halaman
+fetch('https://domain-anda.com/admin/api/pages.php') // semua halaman + menu aktif
+```
+
+Contoh integrasi search box di situs publik yang sekaligus mencatat trend:
+
+```js
+function cariPerusahaan(q) {
+  fetch('https://domain-anda.com/admin/api/companies.php?q=' + encodeURIComponent(q))
+    .then(r => r.json())
+    .then(d => renderHasil(d.companies));
+}
+```
+
+## Keyword trend tracker (`keyword.php`)
+
+- **Cek Saran**: ambil saran keyword live dari Google Suggest (Bahasa Indonesia) — tanpa API key, gratis. Tombol **+ Pantau** langsung menambahkan keyword ke daftar pantauan.
+- **Grafik 14 hari**: batang CSS murni, menampilkan jumlah pencarian per keyword per hari.
+- **Sumber data trend**: pencarian pengunjung yang masuk lewat `api/companies.php?q=` dan `api/track-search.php` dicatat otomatis ke `keyword_searches`.
+- Kalau hosting memblokir `file_get_contents` ke URL eksternal, fitur Cek Saran menampilkan pesan error yang jelas — fitur lain tetap jalan. (Kebanyakan cPanel mengizinkan.)
+
+## Verifikasi v2 (dilakukan sebelum delivery)
+
+- `php -l` lolos untuk semua file PHP baru
+- Uji end-to-end 22 asersi, semua PASS:
+  - Login, guard route, logout
+  - Simpan pengaturan situs → tersimpan & terbaca via API
+  - CRUD perusahaan (create, tampil di daftar, muncul via API)
+  - Pencarian `?q=easycash` mencatat trend otomatis
+  - `track-search.php` mencatat keyword publik
+  - Halaman keyword: grafik render, tambah/hapus keyword
+  - CRUD halaman CMS + fetch via API per-slug
+  - CRUD menu navigasi

@@ -6,10 +6,15 @@ $admin = require_admin();
 $current = basename($_SERVER['PHP_SELF']);
 $nav_items = [
     'index.php' => ['Dashboard', '📊'],
+    'pengaturan.php' => ['Pengaturan Situs', '⚙️'],
+    'halaman.php' => ['Halaman (CMS)', '📄'],
+    'menu.php' => ['Menu Navigasi', '🧭'],
     'artikel.php' => ['Artikel', '📰'],
     'threads.php' => ['Thread Forum', '💬'],
     'balasan.php' => ['Balasan', '🗨️'],
     'kategori.php' => ['Kategori', '📁'],
+    'perusahaan.php' => ['Direktori Perusahaan', '🏢'],
+    'keyword.php' => ['Keyword Trend', '🔍'],
     'pesan.php' => ['Pesan Kontak', '✉️'],
 ];
 $unread = (int) db_fetch_one('SELECT COUNT(*) AS c FROM contact_messages WHERE is_read = 0')['c'];
