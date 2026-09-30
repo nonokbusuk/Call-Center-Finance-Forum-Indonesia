@@ -29,6 +29,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirect('keyword.php?saved=1');
         }
     }
+    if ($action === 'bulk') {
+        $raw = (string) ($_POST['keywords_bulk'] ?? '');
+        $cat = trim($_POST['category']) ?: 'umum';
+        $added = 0;
+        $skipped = 0;
+        foreach (preg_split('/\r\n|\n|;/', $raw) as $line) {
+            $kw = strtolower(trim($line));
+            if ($kw === '') { continue; }
+            $existing = db_fetch_one('SELECT id FROM keywords WHERE keyword = ?', [$kw]);
+            if ($existing) { $skipped++; continue; }
+            db_query('INSERT INTO keywords (keyword, category) VALUES (?, ?)', [$kw, $cat]);
+            $added++;
+        }
+        redirect('keyword.php?bulk=' . $added . '&skip=' . $skipped);
+    }
     if ($action === 'delete') {
         db_query('DELETE FROM keywords WHERE id = ?', [(int) $_POST['id']]);
         redirect('keyword.php?deleted=1');
@@ -98,6 +113,7 @@ foreach ($keywords as $k) {
 
 <?php if (isset($_GET['saved'])): ?><div class="alert success">Keyword ditambahkan.</div><?php endif; ?>
 <?php if (isset($_GET['deleted'])): ?><div class="alert success">Keyword dihapus.</div><?php endif; ?>
+<?php if (isset($_GET['bulk'])): ?><div class="alert success">Import massal selesai: <strong><?= (int) $_GET['bulk'] ?></strong> keyword ditambah, <?= (int) $_GET['skip'] ?> duplikat dilewati.</div><?php endif; ?>
 <?php if ($error): ?><div class="alert error"><?= e($error) ?></div><?php endif; ?>
 
 <div class="panel">
@@ -142,6 +158,24 @@ foreach ($keywords as $k) {
     <?php endfor; ?>
   </div>
   <p class="muted">Total 14 hari: <?= array_sum($trend_values) ?> pencarian tercatat.</p>
+</div>
+
+<div class="panel">
+  <h2>📋 Tempel Massal (Copy-Paste Banyak Keyword Sekaligus)</h2>
+  <form method="post" class="form-grid">
+    <input type="hidden" name="action" value="bulk">
+    <div class="field span-2">
+      <label>Daftar keyword — satu keyword per baris (atau pisah dengan titik-koma)</label>
+      <textarea name="keywords_bulk" rows="8" class="mono" placeholder="call center easycash&#10;call center pinjol&#10;nomor telepon easycash hubungi di 08xxx&#10;pinjaman online cepat cair&#10;..."></textarea>
+    </div>
+    <div class="field">
+      <label>Kategori untuk semua keyword di atas</label>
+      <input type="text" name="category" placeholder="mis. pinjaman online" value="pinjaman online">
+    </div>
+    <div class="form-actions span-2">
+      <button type="submit" class="btn">📥 Import Semua Keyword</button>
+    </div>
+  </form>
 </div>
 
 <div class="panel">
